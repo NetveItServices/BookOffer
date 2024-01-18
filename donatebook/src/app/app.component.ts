@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import { HttpApiService } from './service/http-api.service'
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -17,6 +17,7 @@ export class AppComponent {
     books : []
    };
    bookdetails = {
+    userid:null,
     srno :null,
     booktitle : null,
     author: null,
@@ -29,7 +30,7 @@ export class AppComponent {
   isEditmode: boolean =false;
 
   
-    constructor(private fb: FormBuilder) {
+    constructor(private fb: FormBuilder, public httprequest : HttpApiService) {
       this.bookForm = this.fb.group({
         name: ['', Validators.required],
         phone: ['', Validators.required],
@@ -43,21 +44,39 @@ export class AppComponent {
       this.donatebookdetails["name"] = this.bookForm.value.name,
       this.donatebookdetails["phone"] = this.bookForm.value.phone,
       this.donatebookdetails["email"] = this.bookForm.value.email
+
+       let req = {
+        name : this.bookForm.value.name,
+        phone : this.bookForm.value.phone,
+        email : this.bookForm.value.email
+       }
+       console.log(req)
+       this.httprequest.postRequestToBackend('/create',req).subscribe((res) =>{
+        console.log("response ===>",res)
+        localStorage.setItem('userData',res.data)
+       })
     }    
  
        addNewbookRecord(){
         let books ={
-          "sno": this.bookdetails.srno,
-          "booktitle": this.bookdetails.booktitle,
-          "author": this.bookdetails.author,
-          "genre": this.bookdetails.genre,
-          "yop": this.bookdetails.yearofpublication,
-          "isbn": this.bookdetails.isbn
+          "userid":this.bookdetails.userid,
+          "Sno": this.bookdetails.srno,
+          "Booktitle": this.bookdetails.booktitle,
+          "Author": this.bookdetails.author,
+          "Genre": this.bookdetails.genre,
+          "Yearofpublication": this.bookdetails.yearofpublication,
+          "ISBN": this.bookdetails.isbn
         }
+
+        this.httprequest.postRequestToBackend('/api/books/create',books).subscribe((res) =>{
+          console.log("response ===>",res)
+          //localStorage.setItem('userData',res.data)
+        })
   
         this.donatebookdetails['books'].push(books);
 
         this.bookdetails = {
+          userid:null,
           srno :null,
           booktitle : null,
           author: null,
@@ -83,6 +102,7 @@ export class AppComponent {
           this.isEditmode  = true;
           console.log("my edit data ===",editdata)
           
+          this.bookdetails['userid']=editdata.userid;
           this.bookdetails['srno'] = editdata.sno;
           this.bookdetails['booktitle'] = editdata.booktitle;
           this.bookdetails['author'] = editdata.author;
@@ -92,6 +112,7 @@ export class AppComponent {
         }
       
      updateData(){
+      this.donatebookdetails.books[this.selectedIndex].userid = this.bookdetails['userid'];
       this.donatebookdetails.books[this.selectedIndex].sno = this.bookdetails['srno'];
       this.donatebookdetails.books[this.selectedIndex].booktitle = this.bookdetails['booktitle'];
       this.donatebookdetails.books[this.selectedIndex].author = this.bookdetails['author'];
@@ -100,6 +121,7 @@ export class AppComponent {
       this.donatebookdetails.books[this.selectedIndex].isbn = this.bookdetails['isbn'];
      
       this.bookdetails = {
+        userid:null,
         srno :null,
         booktitle : null,
         author: null,

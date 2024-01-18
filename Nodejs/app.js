@@ -16,11 +16,9 @@ const userSchema = new mongoose.Schema({
     phone: Number,
     email: String
   });   
-  const User = mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema);
 
 app.use(express.json());
-
-
 
 
 app.post('/create', (req, res) => {
