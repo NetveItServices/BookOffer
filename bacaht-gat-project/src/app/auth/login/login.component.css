@@ -1,0 +1,21 @@
+img {
+    width: 100%;
+    height: 500px; 
+    /* margin-bottom: 100%; */
+    /* border: 1px solid #ccc; */
+  }
+
+  div{
+    
+    font-size: 10px;
+  }
+
+  button{
+    font-size:10px;
+    color:white;
+  }
+
+  .my-class{
+     color:black;
+  }
+  
