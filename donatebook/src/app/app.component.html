@@ -1,0 +1,79 @@
+  <h2 class="text-center">DONATE A BOOK</h2>
+    <div class="container mt-3">
+        <form [formGroup]="bookForm">
+            <div class="row">
+                <div class="col">
+                    <input type="text" class="form-control" placeholder="Name" formControlName="name">
+                </div>
+                <div class="col">
+                    <input type="number" class="form-control" placeholder="Phone" formControlName="phone">
+                </div>
+                <div class="col">
+                    <input type="email" class="form-control" placeholder="Email" formControlName="email">
+                </div>
+                <!-- <div class="col">
+                  <button (click)="addNewRow()" class="btn btn-primary">+</button>
+                </div> -->
+            </div>
+            <div class="row mt-2">
+              <div class="col">
+                <button (click)="addNewRow()" class="btn btn-primary">+</button>
+              </div>
+             </div>
+        </form>
+    </div>
+    
+  
+    <table class="table mt-4">
+      <tbody>
+        <tr>
+            <th>S NO.</th>
+            <th>Book Title </th>
+            <th>Author </th>
+            <th>Genre</th>
+            <th>Year of publication</th>
+            <th>ISBN</th>
+            <th>Action</th>
+        </tr>
+        <tr>
+          <th><input type="tel" class="form-control" placeholder="s no." [(ngModel)]="bookdetails.srno"></th>
+          <td><input type="tel" class="form-control" placeholder="booktitle" [(ngModel)]="bookdetails.booktitle"></td>
+          <td><input type="tel" class="form-control" placeholder="author" [(ngModel)]="bookdetails.author"></td>
+          <td><input type="tel" class="form-control" placeholder="genre" [(ngModel)]="bookdetails.genre"></td>
+          <td><input type="tel" class="form-control" placeholder="yearofpublication" [(ngModel)]="bookdetails.yearofpublication"></td>
+          <td><input type="tel" class="form-control" placeholder="isbn" [(ngModel)]="bookdetails.isbn"></td>
+          
+          <td class="text-center">
+            
+            <button (click)="isEditmode ? updateData() : addNewbookRecord()" class="btn btn-primary float-right">{{isEditmode ? 'update' : 'add'}}</button>
+
+           <!--<a href="" onclick="return confirm('Do you really want to Delete ?');" class="rounded btn"><i
+                      class="fa fa-edit"></i></a> -->
+          </td>
+          
+
+      </tr>
+        <tr *ngFor="let elemet of bookdata;index as i">
+            <th>{{elemet.Sno}}</th>
+            <td>{{elemet.Booktitle }}</td>
+            <td>{{elemet.Author}}</td>
+            <td>{{elemet.Genere}}</td>
+            <td>{{elemet.Yearofpublication}}</td>
+            <td>{{elemet.ISBN }}</td>
+            <td>
+               
+              <button (click)="deleteItem(elemet)" >Delete</button>
+
+              <button (click)="editItem(elemet,i)">Edit</button>
+
+                 <!-- <a href="" onclick="return confirm('Do you really want to Delete ?');"><i
+                      class="material-icons">delete</i></a> -->
+
+           <!-- <a href="" onclick="return confirm(' Edit the record');" class="rounded btn"><i
+                      class="fa fa-edit"></i></a> -->
+            </td>
+        </tr>
+       
+        </tbody>
+    </table>
+
